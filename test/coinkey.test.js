@@ -20,7 +20,7 @@ describe("CoinKey", function () {
     describe("> when private key and versions", function () {
       it("should return an instance of CoinKey with versions", function () {
         var dogecoin = fixtures.valid.filter(function (f) { if (f.description.match(/dogecoin/)){ return f; }})[0];
-        var ck = new CoinKey(new Buffer(dogecoin.privateKey, 'hex'), dogecoin.versions);
+        var ck = new CoinKey(new Buffer(dogecoin.privateKey, "hex"), dogecoin.versions);
         assert(ck.compressed);
       });
     });
