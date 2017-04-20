@@ -2,7 +2,7 @@ coinkey
 =======
 
 [![Version](http://img.shields.io/npm/v/coinkey.svg)](https://www.npmjs.org/package/coinkey)
-[![build status](https://secure.travis-ci.org/IET-HF-Team/coinkey.png)](http://travis-ci.org/IET-HF-Team/coinkey)
+[![Build Status](https://travis-ci.org/IET-HF-Team/coinkey.svg?branch=master)](https://travis-ci.org/IET-HF-Team/coinkey)
 [![Coverage Status](https://coveralls.io/repos/github/IET-HF-Team/coinkey/badge.svg?branch=master)](https://coveralls.io/github/IET-HF-Team/coinkey?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e7d6d0daef57439a847969fbfa3bb6c8)](https://www.codacy.com/app/The-M-Team/coinkey?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IET-HF-Team/coinkey&amp;utm_campaign=Badge_Grade)
 
