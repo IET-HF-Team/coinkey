@@ -1,5 +1,5 @@
 
-// API:        https://jasmine.github.io/api/edge/global
+// API:		https://jasmine.github.io/api/edge/global
 // Quickstart: https://jasmine.github.io/edge/node.html
 
 // npm init
@@ -28,8 +28,8 @@ describe("CoinKey", function(){
 	// Test fixtures from original repo
 	var fixtures = require("../test/fixtures/coinkey");
 
-    var bitcoin  = fixtures.valid.filter(function (f) { if (f.description.match(/bitcoin/ )){ return f; } })[0];
-    var dogecoin = fixtures.valid.filter(function (f) { if (f.description.match(/dogecoin/)){ return f; } })[0];
+	var bitcoin  = fixtures.valid.filter(function (f) { if (f.description.match(/bitcoin/ )){ return f; } })[0];
+	var dogecoin = fixtures.valid.filter(function (f) { if (f.description.match(/dogecoin/)){ return f; } })[0];
 
 	// Object under test + instance var
 	var CoinKey = require("../lib/coinkey.js");
@@ -42,15 +42,15 @@ describe("CoinKey", function(){
 
 		it("should fail without privateKey", function(){
 			expect(function(){ 
-				new CoinKey(); 
+				ck = new CoinKey(); 
 			})
-			.toThrowError(/privateKey/i)
+			.toThrowError(/privateKey/i);
 		});
 		it("should fail with invalid privateKey", function(){
 			expect(function(){ 
-				new CoinKey("?!"); 
+				ck = new CoinKey("?!"); 
 			})
-			.toThrowError(/privateKey/i)
+			.toThrowError(/privateKey/i);
 		});
 
 		// Test with valid parameters. This is still considered constructor
@@ -90,7 +90,7 @@ describe("CoinKey", function(){
 				});
 
 				it("should have proper WIF", function(){
-					expect(ck.privateWif).toEqual(data.privateWifCompressed);	
+					expect(ck.privateWif).toEqual(data.privateWifCompressed);
 				});
 			});
 		});
@@ -108,7 +108,7 @@ describe("CoinKey", function(){
 			});
 
 			it(".publicAddress should match", function(){
-				expect(ck.publicAddress).toEqual(data.publicAddressCompressed)
+				expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
 			});
 		});
 
@@ -120,7 +120,7 @@ describe("CoinKey", function(){
 				expect(ck.versions).toEqual({
 					public:  data.versions.public,
 					private: data.versions.private,
-				})
+				});
 				expect(ck.privateKey.toString("hex")).toEqual(data.privateKey);
 				expect(ck.publicAddress).toEqual(data.publicAddress);
 			});
@@ -143,9 +143,9 @@ describe("CoinKey", function(){
 		var A = bitcoin;
 		var B = dogecoin;
 
-        beforeEach(function(){
-        	ck = new CoinKey(new Buffer(A.privateKey, "hex"))
-        });
+		beforeEach(function(){
+			ck = new CoinKey(new Buffer(A.privateKey, "hex"));
+		});
 
 		describe("when object changes", function(){
 			it("should change", function(){
@@ -194,4 +194,4 @@ describe("CoinKey", function(){
 		});
 	});
 
-})
+});
