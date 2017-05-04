@@ -7,7 +7,8 @@
       "publicAddress": "16UjcYNBG9GTK4uq2f7yYEbuifqCzoLMGS",
       "publicAddressCompressed": "1FkKMsKNJqWSDvTvETqcCeHcUQQ64kSC6s",
       "versions": {"private": 128, "public": 0},
-      "description": "bitcoin"
+      "description": "bitcoin",
+      "unit": "BTC"
     },
     {
       "privateKey": "1184cd2cdd640ca42cfc3a091c51d549b2f016d454b2774019c2b2d2e08529fd",
@@ -16,7 +17,8 @@
       "publicAddress": "LQhgskg1LoWWZsbzCo7GpFffvtCV8Z5GKZ",
       "publicAddressCompressed": "LZyGd5dCPVkVUjA5QbpuUfMNgcmNDLjswH",
       "versions": {"private": 176, "public": 48},
-      "description": "litecoin"
+      "description": "litecoin",
+      "unit": "LTC"
     },
     {
       "privateKey": "1184cd2cdd640ca42cfc3a091c51d549b2f016d454b2774019c2b2d2e08529fd",
@@ -25,7 +27,8 @@
       "publicAddress": "DAcq9oJpZZAjr56RmF7Y5zmWboZWQ4HAsW",
       "publicAddressCompressed": "DKtQu8G1cFQikveWy3qAkQTDMY8PKVU18Z",
       "versions": {"private": 158, "public": 30},
-      "description": "dogecoin"
+      "description": "dogecoin",
+      "unit": "DOGE"
     },
     {
       "privateKey": "1184cd2cdd640ca42cfc3a091c51d549b2f016d454b2774019c2b2d2e08529fd",
@@ -34,7 +37,8 @@
       "publicAddress": "N246pBsABXN1qcALJUSYkkkpSuEG3KTTGR",
       "publicAddressCompressed": "NBKgZWpMEDbzkTiRWHABRASXCdo8zWM8qC",
       "versions": {"private": 180, "public": 52},
-      "description": "namecoin"
+      "description": "namecoin",
+      "unit": "NMC"
     }
   ]
 }
