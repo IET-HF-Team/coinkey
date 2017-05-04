@@ -12,6 +12,7 @@ describe("util", function () {
 
       assert.deepEqual(util.normalizeVersions({}), null);
       assert.deepEqual(util.normalizeVersions(null), null);
+      assert.deepEqual(util.normalizeVersions("this string's type is an object"), null);
     });
   });
 });
