@@ -16,6 +16,14 @@ describe("CoinKey", function () {
         assert.equal(ck.privateKey.toString("hex"), privateKey.toString("hex"));
       });
     });
+    
+    describe("> when used as a regular function, not a constructor", function () {
+      it("should return an instance of CoinKey", function () {
+        var privateKey = secureRandom.randomBuffer(32);
+        var ck = CoinKey(privateKey);
+        assert.equal(ck.privateKey.toString("hex"), privateKey.toString("hex"));
+      });
+    });
 
     describe("> when private key and versions", function () {
       it("should return an instance of CoinKey with versions", function () {
