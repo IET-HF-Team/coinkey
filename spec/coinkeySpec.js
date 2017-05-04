@@ -23,7 +23,7 @@ function expectToMatchFixture(ck, data, uncompressed){
 describe("CoinKey", function(){
 	// Helper libraries
 	var random   = require("secure-random");
-	var coininfo = require("coininfo")
+	var coininfo = require("coininfo");
 
 	// Test fixtures from original repo
 	var fixtures = require("../test/fixtures/coinkey");
@@ -33,7 +33,7 @@ describe("CoinKey", function(){
 
 	// Object under test + instance var
 	var CoinKey = require("../lib/coinkey.js");
-	var ck 
+	var ck;
 
 	describe("constructor", function(){
 		
@@ -45,19 +45,19 @@ describe("CoinKey", function(){
 				new CoinKey(); 
 			})
 			.toThrowError(/privateKey/i)
-		})
+		});
 		it("should fail with invalid privateKey", function(){
 			expect(function(){ 
 				new CoinKey("?!"); 
 			})
 			.toThrowError(/privateKey/i)
-		})
+		});
 
 		// Test with valid parameters. This is still considered constructor
 		// duty, as it should initialize fields correctly
 
 		describe("with valid privateKey", function(){
-			var key
+			var key;
 
 			beforeEach(function() {
 				key = random.randomBuffer(32);
@@ -65,39 +65,36 @@ describe("CoinKey", function(){
 			});
 
 			it("should create compressed ECKey", function(){
-				expect(ck.compressed).toBeTruthy()
-			})
+				expect(ck.compressed).toBeTruthy();
+			});
 
 			it("should have default versions set", function(){
 				expect(ck.versions).toBeDefined();
 
 				expect(ck.versions.public).toBeDefined();
 				expect(ck.versions.private).toBeDefined();
-			})
-		})
+			});
+		});
 
 		// Create descriptions for each fixtures we have
 		fixtures.valid.forEach(function(data) {
-			var name = data.description
+			var name = data.description;
 
 			describe("with valid currency versions for '" + name + "'", function(){
 				beforeEach(function(){
-					ck = new CoinKey(
-						new Buffer(data.privateKey, "hex"),
-						coininfo(data.unit)
-					)
-				})
+					ck = new CoinKey(new Buffer(data.privateKey, "hex"), coininfo(data.unit));
+				});
 
 				it("should have proper address", function(){
 					expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
-				})
+				});
 
 				it("should have proper WIF", function(){
 					expect(ck.privateWif).toEqual(data.privateWifCompressed);	
-				})
-			})
-		})
-	})
+				});
+			});
+		});
+	});
 
 	// These cases are dependent on currency type
 	fixtures.valid.forEach(function(data) {
@@ -108,12 +105,12 @@ describe("CoinKey", function(){
 
 			it(".privateWif should match", function(){
 				expect(ck.privateWif).toEqual(data.privateWifCompressed);
-			})
+			});
 
 			it(".publicAddress should match", function(){
 				expect(ck.publicAddress).toEqual(data.publicAddressCompressed)
-			})
-		})
+			});
+		});
 
 		describe("with currency '" + data.description + "' :", function(){
 			it(".fromWif should digest uncompressed data", function(){
@@ -126,7 +123,7 @@ describe("CoinKey", function(){
 				})
 				expect(ck.privateKey.toString("hex")).toEqual(data.privateKey);
 				expect(ck.publicAddress).toEqual(data.publicAddress);
-			})
+			});
 			
 			it(".fromWif should digest compressed data", function(){
 				ck = CoinKey.fromWif(data.privateWifCompressed);
@@ -135,28 +132,28 @@ describe("CoinKey", function(){
 				expect(ck.versions).toEqual({
 					public:  data.versions.public,
 					private: data.versions.private,
-				})
+				});
 				expect(ck.privateKey.toString("hex")).toEqual(data.privateKey);
 				expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
-			})
-		})
-	})
+			});
+		});
+	});
 
 	describe(".versions", function(){
-		var A = bitcoin
-		var B = dogecoin
+		var A = bitcoin;
+		var B = dogecoin;
 
         beforeEach(function(){
         	ck = new CoinKey(new Buffer(A.privateKey, "hex"))
-        })
+        });
 
 		describe("when object changes", function(){
 			it("should change", function(){
 				ck.versions = B.versions;
 
 				expectToMatchFixture(ck, B);
-			})
-		})
+			});
+		});
 
 		describe("when field changes", function(){
 			it("should change", function(){
@@ -164,9 +161,9 @@ describe("CoinKey", function(){
 				ck.versions.private = B.versions.private;
 
 				expectToMatchFixture(ck, B);
-			})
-		})
-	})
+			});
+		});
+	});
 
 	describe(".createRandom()", function(){
 		describe("without versions", function(){
@@ -176,9 +173,9 @@ describe("CoinKey", function(){
 				expect(ck.versions).toEqual({
 					public:  bitcoin.versions.public,
 					private: bitcoin.versions.private,
-				})
-			})
-		})
+				});
+			});
+		});
 
 		// Test for each currency
 		fixtures.valid.forEach(function(data) {
@@ -191,10 +188,10 @@ describe("CoinKey", function(){
 					expect(ck.versions).toEqual({
 						public:  data.versions.public,
 						private: data.versions.private,
-					})
-				})
-			})
-		})
-	})
+					});
+				});
+			});
+		});
+	});
 
 })
