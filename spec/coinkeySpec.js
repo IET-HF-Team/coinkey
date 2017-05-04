@@ -5,6 +5,21 @@
 // npm init
 // jasmine spec\coinkeySpec.js
 
+function expectToMatchFixture(ck, data, uncompressed){
+	expect(ck.versions).toEqual({
+		public:  data.versions.public,
+		private: data.versions.private,
+	});
+
+	if (uncompressed){
+		expect(ck.privateWif).toEqual(data.privateWif);
+		expect(ck.publicAddress).toEqual(data.publicAddress);
+	} else {
+		expect(ck.privateWif).toEqual(data.privateWifCompressed);
+		expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
+	}
+}
+
 describe("CoinKey", function(){
 	// Helper libraries
 	var random   = require("secure-random");
@@ -12,6 +27,9 @@ describe("CoinKey", function(){
 
 	// Test fixtures from original repo
 	var fixtures = require("../test/fixtures/coinkey");
+
+    var bitcoin  = fixtures.valid.filter(function (f) { if (f.description.match(/bitcoin/ )){ return f; } })[0];
+    var dogecoin = fixtures.valid.filter(function (f) { if (f.description.match(/dogecoin/)){ return f; } })[0];
 
 	// Object under test + instance var
 	var CoinKey = require("../lib/coinkey.js");
@@ -96,69 +114,87 @@ describe("CoinKey", function(){
 				expect(ck.publicAddress).toEqual(data.publicAddressCompressed)
 			})
 		})
+
+		describe("with currency '" + data.description + "' :", function(){
+			it(".fromWif should digest uncompressed data", function(){
+				ck = CoinKey.fromWif(data.privateWif);
+
+				expect(ck.compressed).toBeFalsy();
+				expect(ck.versions).toEqual({
+					public:  data.versions.public,
+					private: data.versions.private,
+				})
+				expect(ck.privateKey.toString("hex")).toEqual(data.privateKey);
+				expect(ck.publicAddress).toEqual(data.publicAddress);
+			})
+			
+			it(".fromWif should digest compressed data", function(){
+				ck = CoinKey.fromWif(data.privateWifCompressed);
+
+				expect(ck.compressed).toBeTruthy();
+				expect(ck.versions).toEqual({
+					public:  data.versions.public,
+					private: data.versions.private,
+				})
+				expect(ck.privateKey.toString("hex")).toEqual(data.privateKey);
+				expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
+			})
+		})
+	})
+
+	describe(".versions", function(){
+		var A = bitcoin
+		var B = dogecoin
+
+        beforeEach(function(){
+        	ck = new CoinKey(new Buffer(A.privateKey, "hex"))
+        })
+
+		describe("when object changes", function(){
+			it("should change", function(){
+				ck.versions = B.versions;
+
+				expectToMatchFixture(ck, B);
+			})
+		})
+
+		describe("when field changes", function(){
+			it("should change", function(){
+				ck.versions.public  = B.versions.public;
+				ck.versions.private = B.versions.private;
+
+				expectToMatchFixture(ck, B);
+			})
+		})
+	})
+
+	describe(".createRandom()", function(){
+		describe("without versions", function(){
+			it("should create a Bitcoin CoinKey", function(){
+				ck = CoinKey.createRandom();
+				
+				expect(ck.versions).toEqual({
+					public:  bitcoin.versions.public,
+					private: bitcoin.versions.private,
+				})
+			})
+		})
+
+		// Test for each currency
+		fixtures.valid.forEach(function(data) {
+			describe("with currency '" + data.description + "' versions", function(){
+				beforeEach(function(){
+					ck = CoinKey.createRandom(data.versions);
+				});
+
+				it("should create a matching CoinKey", function(){
+					expect(ck.versions).toEqual({
+						public:  data.versions.public,
+						private: data.versions.private,
+					})
+				})
+			})
+		})
 	})
 
 })
-
-/*
-describe("Player", function() {
-	var Player = require('../../lib/jasmine_examples/Player');
-	var Song = require('../../lib/jasmine_examples/Song');
-	var player;
-	var song;
-
-	beforeEach(function() {
-		player = new Player();
-		song = new Song();
-	});
-
-	it("should be able to play a Song", function() {
-		player.play(song);
-		expect(player.currentlyPlayingSong).toEqual(song);
-
-		//demonstrates use of custom matcher
-		expect(player).toBePlaying(song);
-	});
-
-	describe("when song has been paused", function() {
-		beforeEach(function() {
-			player.play(song);
-			player.pause();
-		});
-
-		it("should indicate that the song is currently paused", function() {
-			expect(player.isPlaying).toBeFalsy();
-
-			// demonstrates use of 'not' with a custom matcher
-			expect(player).not.toBePlaying(song);
-		});
-
-		it("should be possible to resume", function() {
-			player.resume();
-			expect(player.isPlaying).toBeTruthy();
-			expect(player.currentlyPlayingSong).toEqual(song);
-		});
-	});
-
-	// demonstrates use of spies to intercept and test method calls
-	it("tells the current song if the user has made it a favorite", function() {
-		spyOn(song, 'persistFavoriteStatus');
-
-		player.play(song);
-		player.makeFavorite();
-
-		expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
-	});
-
-	//demonstrates use of expected exceptions
-	describe("#resume", function() {
-		it("should throw an exception if song is already playing", function() {
-			player.play(song);
-
-			expect(function() {
-				player.resume();
-			}).toThrowError("song is already playing");
-		});
-	});
-});
-*/
