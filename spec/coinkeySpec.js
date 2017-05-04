@@ -7,7 +7,8 @@
 
 describe("CoinKey", function(){
 	// Helper libraries
-	var random = require("secure-random");
+	var random   = require("secure-random");
+	var coininfo = require("coininfo")
 
 	// Test fixtures from original repo
 	var fixtures = require("../test/fixtures/coinkey");
@@ -57,7 +58,46 @@ describe("CoinKey", function(){
 			})
 		})
 
+		// Create descriptions for each fixtures we have
+		fixtures.valid.forEach(function(data) {
+			var name = data.description
+
+			describe("with valid currency versions for '" + name + "'", function(){
+				beforeEach(function(){
+					ck = new CoinKey(
+						new Buffer(data.privateKey, "hex"),
+						coininfo(data.unit)
+					)
+				})
+
+				it("should have proper address", function(){
+					expect(ck.publicAddress).toEqual(data.publicAddressCompressed);
+				})
+
+				it("should have proper WIF", function(){
+					expect(ck.privateWif).toEqual(data.privateWifCompressed);	
+				})
+			})
+		})
 	})
+
+	// These cases are dependent on currency type
+	fixtures.valid.forEach(function(data) {
+		describe("with currency '" + data.description + "' :", function(){
+			beforeEach(function() {
+				ck = new CoinKey(new Buffer(data.privateKey, "hex"), data.versions);
+			});
+
+			it(".privateWif should match", function(){
+				expect(ck.privateWif).toEqual(data.privateWifCompressed);
+			})
+
+			it(".publicAddress should match", function(){
+				expect(ck.publicAddress).toEqual(data.publicAddressCompressed)
+			})
+		})
+	})
+
 })
 
 /*
