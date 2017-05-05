@@ -1,6 +1,7 @@
 coinkey
 =======
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e7d6d0daef57439a847969fbfa3bb6c8)](https://www.codacy.com/app/The-M-Team/coinkey?utm_source=github.com&utm_medium=referral&utm_content=IET-HF-Team/coinkey&utm_campaign=badger)
 [![Version](http://img.shields.io/npm/v/coinkey.svg)](https://www.npmjs.org/package/coinkey)
 [![Build Status](https://travis-ci.org/IET-HF-Team/coinkey.svg?branch=master)](https://travis-ci.org/IET-HF-Team/coinkey)
 [![Coverage Status](https://coveralls.io/repos/github/IET-HF-Team/coinkey/badge.svg?branch=master)](https://coveralls.io/github/IET-HF-Team/coinkey?branch=master)
